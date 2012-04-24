@@ -1,0 +1,29 @@
+ 1 :
+   creating tags:
+          go to the root directory of sorce code 
+          #find . -name "*.py" -print | etags 
+	 etags `find . -name "*.py" -o -name "*.dtml" `
+         etags `find . -name "*.py"`
+
+or edit .bashrc
+  export CODEDIR=/ganoop/interface/jiva5_interface/
+  alias mktags='cd $CODEDIR && etags `find $CODEDIR -name "*.py"` && cd -'
+
+$source ~/.basrc
+$mktags
+
+link : http://www.gnu.org/software/libtool/manual/emacs/Tags.html#Tags
+
+2)
+
+edit .emacs file add
+
+(setq tags-table-list
+           '("/ganoop/interface/jiva5_interface" ,"/ganoop/interface/jiva5_interface/eggs/"))
+
+(global-set-key "\M-1" 'find-tag) default : M-find-tag
+(global-set-key "\M-t" 'find-tag-other-window)
+(global-set-key "\M-r" 'pop-tag-mark) default:M-*
+
+
+

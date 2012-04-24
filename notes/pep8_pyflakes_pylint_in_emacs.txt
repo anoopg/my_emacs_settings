@@ -1,0 +1,36 @@
+1) install pep8,pylint ,pyflakes in python using easy_install
+2) create a script called pychecker.py and copy that in emacs/bin floder and make the script as executable
+
+#!/bin/bash
+/ganoop/usr/python264/bin/pyflakes $1
+echo "## pyflakes above, pep8 below ##"
+/ganoop/usr/python264/bin/pep8 --ignore=W601,E501--repeat $1
+/ganoop/usr/python264/bin/pylint
+
+
+3) add following to .emacs
+
+'(py-pychecker-command "/ganoop/emacs23.4/bin/pychecker.sh")
+ '(py-pychecker-command-args (quote ("")))
+ '(python-check-command "/ganoop/emacs23.4/bin/pychecker.sh")
+
+ C-c C-w ==> to list all errors and warnings
+ C-c C-` ==> to go to the particular line of coding violation
+
+
+4) To view coding violation on the fly add following code to .emacs
+(when (load "flymake" t) 
+         (defun flymake-pyflakes-init () 
+           (let* ((temp-file (flymake-init-create-temp-buffer-copy 
+                              'flymake-create-temp-inplace)) 
+              (local-file (file-relative-name 
+                           temp-file 
+                           (file-name-directory buffer-file-name)))) 
+             (list "/ganoop/emacs23.4/bin/pychecker.sh" (list local-file)))) 
+
+         (add-to-list 'flymake-allowed-file-name-masks 
+                  '("\\.py\\'" flymake-pyflakes-init))) 
+
+   (add-hook 'find-file-hook 'flymake-find-file-hook)
+
+
